@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  middleware: ['checkLogin'],
   methods: {
     onSubmit () {
       // Firebase の Google ログイン用のプロバイダーを作成
