@@ -10,14 +10,19 @@ service cloud.firestore {
         return request.auth.uid == userId
       }
 
-    function require(param){
+    function require(param) {
       return request.resource.data[param] != null
     }
 
-    function isNotEmpty(param){
+    function isNotEmpty(param) {
       return require(param)
       && request.resource.data[param] is string
       && request.resource.data[param].trim().size() != 0;
+    }
+
+    function isTimeStamp(param){
+      return require(param)
+            && request.resource.data[param] is timestamp
     }
 
     match /users/{userId} {
@@ -25,6 +30,14 @@ service cloud.firestore {
       allow create: if isUserAuth(userId)
                     && isNotEmpty("name")
                     && isNotEmpty("iconImageUrl");
+    }
+
+    match /rooms/{roomId} {
+      allow read : if isAuth();
+      allow create: if isAuth()
+                  && isNotEmpty("name")
+                  && isNotEmpty("topImageUrl")
+                  && isTimeStamp("createdAt");
     }
   }
 }
