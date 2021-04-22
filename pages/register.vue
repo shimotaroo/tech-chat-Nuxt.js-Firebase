@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   data () {
     return {
@@ -89,6 +91,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('alert', ['setMessage']),
     selectImage () {
       // this.$refs.imageはref="image"をしているinputタグを指定できる
       this.$refs.image.click()
@@ -160,6 +163,7 @@ export default {
 
       imageUrl.errorMessage = null
     },
+    // ユーザー登録
     async onSubmit () {
       const user = await this.$auth()
 
@@ -185,7 +189,9 @@ export default {
           })
         this.$router.push('/')
       } catch (e) {
-        console.log(e)
+        this.setMessage({
+          message: '登録に失敗しました。'
+        })
       }
     }
   }
