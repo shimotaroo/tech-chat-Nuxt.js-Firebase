@@ -2,9 +2,11 @@
   <div>
 
     <div>
+      <!-- チャットルーム一覧に表示されたチャットルームをクリックした時にチャットページに遷移する -->
       <div
         v-for="room in rooms"
         :key="room.id"
+        @click="moveToRoomPage(room.id)"
         class="bg-white max-w-sm rounded-lg overflow-hidden shadow m-4 mb-5 p-4 h-32"
       >
         <div>
@@ -73,6 +75,9 @@ export default {
   },
 
   methods: {
+    moveToRoomPage (roomId) {
+      this.$router.push(`/rooms/${roomId}`)
+    },
     openModal () {
       this.isCreateMode = true
     },
